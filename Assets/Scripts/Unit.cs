@@ -8,14 +8,26 @@ public class Unit : MonoBehaviour
     public Transform targetToFollow;
     Animator animator;
 
+    [SerializeField]
+    float hp, hpMax = 100;
+
+    [SerializeField]
+    GameObject hpBarPrefab;
+
+    public float HealthPrecent
+    {
+        get { return hp / hpMax; }
+    }
     const string ANIMATOR_SPEED = "Speed",
-        ANIMATOR_DIE = "Die",
+        ANIMATOR_ALIVE = "Alive",
         ANIMATOR_ATTACK = "Basic Attack";
      
     void Awake()
     {
         nav = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        hp = hpMax;
+        Instantiate(hpBarPrefab, transform);
     }
 
 
@@ -26,6 +38,7 @@ public class Unit : MonoBehaviour
             nav.SetDestination(targetToFollow.position);
         }
         Animate();
+
     }
     protected virtual void Animate()
     {
@@ -33,6 +46,6 @@ public class Unit : MonoBehaviour
         speedVector.y = 0;
         float speed = speedVector.magnitude;
         animator.SetFloat(ANIMATOR_SPEED, speed);
-
+        animator.SetBool(ANIMATOR_ALIVE, hp>0);
     }
 }
