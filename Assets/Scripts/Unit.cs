@@ -4,23 +4,26 @@ using UnityEngine;
 using UnityEngine.AI;
 public class Unit : MonoBehaviour
 {
-    public Transform targetToFollow;
-    Animator animator;
+    [Header("Unit")]
+    [SerializeField]
+    GameObject hpBarPrefab;
 
     [SerializeField]
     float hp, hpMax = 100;
-    [SerializeField]
-    GameObject hpBarPrefab;
     public bool IsAlive { get { return hp > 0; } }
     public static List<ISeletable> SeletableUnit { get { return seletableUnit; } }
 
+    Animator animator;
     [SerializeField]
-    float stoppingDistance = 1;
+    protected float stoppingDistance = 1, attacDistance = 1, attackCooldown = 1, attackDamage = 0;
     static List<ISeletable> seletableUnit = new List<ISeletable>();
 
+    protected Transform targetToFollow;
     protected NavMeshAgent nav;
     protected HPBar healtBar;
     protected Task task = Task.idle;
+
+    float attackTimer;
 
     public enum Task
     {
@@ -36,7 +39,7 @@ public class Unit : MonoBehaviour
         ANIMATOR_ATTACK = "Basic Attack";
 
 
-    void Awake()
+    protected virtual void Awake()
     {
         nav = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
@@ -74,7 +77,24 @@ public class Unit : MonoBehaviour
     }
     protected virtual void Attacking()
     {
-        nav.velocity = Vector3.zero;
+        if (targetToFollow)
+        {
+            nav.velocity = Vector3.zero;
+            transform.LookAt(targetToFollow);
+            float distance = Vector3.Magnitude(nav.destination - transform.position);
+            if (distance < attacDistance)
+            {
+                if ((attackTimer -= Time.deltaTime) <= 0) Attack();
+            }
+            else
+            {
+                task = Task.chase;
+            }
+        }
+        else
+        {
+            task = Task.idle;
+        }
     }
     protected virtual void Moving()
     {
@@ -97,7 +117,19 @@ public class Unit : MonoBehaviour
     }
     protected virtual void Chasing()
     {
-        //to do
+        if (targetToFollow)
+        {
+            nav.SetDestination(targetToFollow.position);
+            float distance = Vector3.Magnitude(nav.destination - transform.position);
+            if (distance < attacDistance)
+            {
+                task = Task.attack;
+            }
+        }
+        else
+        {
+            task = Task.idle;
+        }
     }
 
 
@@ -109,5 +141,28 @@ public class Unit : MonoBehaviour
         float speed = speedVector.magnitude;
         animator.SetFloat(ANIMATOR_SPEED, speed);
         animator.SetBool(ANIMATOR_ALIVE, IsAlive);
+    }
+    public virtual void Attack()
+    {
+        animator.SetTrigger(ANIMATOR_ATTACK);
+        attackTimer = attackCooldown;
+    }
+    public virtual void DealDamage()
+    {
+        if(targetToFollow)
+        {
+            Unit unit = targetToFollow.GetComponent<Unit>();
+            if (unit && unit.IsAlive)
+            {
+                unit.hp -= attackDamage;
+            }
+            else targetToFollow = null;
+        }
+    }
+
+    protected virtual void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attacDistance);
     }
 }

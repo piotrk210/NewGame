@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class Dragon : Unit, ISeletable
 {
+
+    [Header("Dragon")]
+
+    [Range(0, .3f), SerializeField] float attackDuration = 0;
+    [SerializeField] LayerMask bitingLayerMask;
+
+
     public void SetSelected(bool selected)
     {
-        //throw new System.NotImplementedException(); to do
         healtBar.gameObject.SetActive(selected);
     }
 
@@ -23,6 +29,27 @@ public class Dragon : Unit, ISeletable
     }
     void Command(Hero heroToKill)
     {
-        //to do
+        targetToFollow = heroToKill.transform;
+        task = Task.chase;
+    }
+
+    public override void DealDamage()
+    {
+        if(Bite())
+        base.DealDamage();
+
+    }
+
+    bool Bite()
+    {
+        Vector3 start = transform.position;
+        Vector3 direction = transform.forward;
+        RaycastHit hit;
+        if(Physics.Raycast(start, direction, out hit,attacDistance, bitingLayerMask))
+        {
+            var unit = hit.collider.gameObject.GetComponent<Unit>();
+            return unit;
+        }
+        return false;
     }
 }
