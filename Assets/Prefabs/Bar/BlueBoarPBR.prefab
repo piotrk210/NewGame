@@ -1030,7 +1030,8 @@ GameObject:
   - component: {fileID: 2323429146851629707}
   - component: {fileID: 5605551805563370855}
   - component: {fileID: 9192409796692219514}
-  m_Layer: 0
+  - component: {fileID: 1158752573469951858}
+  m_Layer: 8
   m_Name: BlueBoarPBR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1112,6 +1113,19 @@ MonoBehaviour:
   hpMax: 100
   hpBarPrefab: {fileID: 7544765913690877585, guid: b06ff3fafde167145af2ff4912ad4394,
     type: 3}
+--- !u!65 &1158752573469951858
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2323429146844365333}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.0219116, y: 2.6532612, z: 4.583313}
+  m_Center: {x: -0.11367798, y: 0.8266306, z: 0.2293396}
 --- !u!1 &2323429146844371383
 GameObject:
   m_ObjectHideFlags: 0

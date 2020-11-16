@@ -495,12 +495,9 @@ MonoBehaviour:
   cameraRotationMinMax: {x: 20, y: 40}
   zoomLerp: 0.32
   cursorThreshold: 0.2
---- !u!4 &1177370124 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5930651934574693639, guid: 7bf201eb93a64ab47857ce81b796a258,
-    type: 3}
-  m_PrefabInstance: {fileID: 1293071467}
-  m_PrefabAsset: {fileID: 0}
+  commandLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1001 &1293071467
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -581,7 +578,7 @@ GameObject:
   - component: {fileID: 1710797666}
   - component: {fileID: 1710797665}
   - component: {fileID: 1710797664}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -921,16 +918,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2323429146827417026, guid: a2ef9adbd5ed102499a5abc660bc0dd9,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2323429146827417026, guid: a2ef9adbd5ed102499a5abc660bc0dd9,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2323429146844365333, guid: a2ef9adbd5ed102499a5abc660bc0dd9,
         type: 3}
       propertyPath: m_Name
@@ -1000,16 +987,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2323429146827417026, guid: a2ef9adbd5ed102499a5abc660bc0dd9,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2323429146827417026, guid: a2ef9adbd5ed102499a5abc660bc0dd9,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2323429146844365333, guid: a2ef9adbd5ed102499a5abc660bc0dd9,
         type: 3}
       propertyPath: m_Name
@@ -1070,10 +1047,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8522304532746947583, guid: a2ef9adbd5ed102499a5abc660bc0dd9,
-        type: 3}
-      propertyPath: targetToFollow
-      value: 
-      objectReference: {fileID: 1177370124}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2ef9adbd5ed102499a5abc660bc0dd9, type: 3}
