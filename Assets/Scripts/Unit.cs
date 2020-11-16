@@ -14,6 +14,11 @@ public class Unit : MonoBehaviour
     [SerializeField]
     GameObject hpBarPrefab;
 
+    public static List<ISeletable> SeletableUnit { get { return seletableUnit; } }
+    static List<ISeletable> seletableUnit = new List<ISeletable>();
+
+    protected HPBar healtBar;
+
     public float HealthPrecent
     {
         get { return hp / hpMax; }
@@ -27,9 +32,18 @@ public class Unit : MonoBehaviour
         nav = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         hp = hpMax;
-        Instantiate(hpBarPrefab, transform);
+        healtBar =  Instantiate(hpBarPrefab, transform).GetComponent<HPBar>();
     }
 
+    private void Start()
+    {
+        if (this is ISeletable) seletableUnit.Add(this as ISeletable);
+    }
+
+    private void OnDestroy()
+    {
+        if (this is ISeletable) seletableUnit.Remove(this as ISeletable);
+    }
 
     void Update()
     {

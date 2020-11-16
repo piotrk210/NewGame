@@ -1029,7 +1029,7 @@ GameObject:
   - component: {fileID: 2323429146844487263}
   - component: {fileID: 2323429146851629707}
   - component: {fileID: 5605551805563370855}
-  - component: {fileID: 8522304532746947583}
+  - component: {fileID: 9192409796692219514}
   m_Layer: 0
   m_Name: BlueBoarPBR
   m_TagString: Untagged
@@ -1095,7 +1095,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8522304532746947583
+--- !u!114 &9192409796692219514
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1104,7 +1104,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2323429146844365333}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d30e31cec7033b4469b176effbd78e56, type: 3}
+  m_Script: {fileID: 11500000, guid: c1ffb36a063798347a38b22cd369d7fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targetToFollow: {fileID: 0}
