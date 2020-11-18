@@ -50,9 +50,7 @@ public class Hero : Unit
         var monster = other.gameObject.GetComponent<Dragon>();
         if (monster && !seenMonster.Contains(monster))
         {
-            Debug.Log(monster.gameObject);
             seenMonster.Add(monster);
-        Debug.Log(seenMonster.Count);
         }
     }
 
