@@ -9,11 +9,17 @@ public class Peasant : Unit
     [SerializeField] float patrolRadious = 5;
     [SerializeField] float idlingCooldown = 2;
 
+    const string ANIMATOR_ISONFARM = "Is On Farm";
+    
+
     float normalSpeed;
+
+    bool IsOnFarm, IsInVillage;
 
     List<Dragon> seenMonster = new List<Dragon>();
 
     Vector3 startPoint;
+    [SerializeField]GameObject village;
     float idlingTimer;
     Dragon ClosestMonster
     {
@@ -48,9 +54,25 @@ public class Peasant : Unit
     {
         base.OnTriggerEnter(other);
         var monster = other.gameObject.GetComponent<Dragon>();
+
+        Debug.Log(other.gameObject.name);
+        if(other.gameObject.name == "FarmCollider")
+        {
+            IsOnFarm = true;
+            animator.SetBool(ANIMATOR_ISONFARM, IsOnFarm);
+        }
+        if (other.gameObject.name == "VillageCollider")
+        {
+            IsInVillage = true;
+        }
         if (monster && !seenMonster.Contains(monster))
         {
+            nav.SetDestination(village.transform.position);
+        }
+        if(monster && !seenMonster.Contains(monster) && IsInVillage)
+        {
             seenMonster.Add(monster);
+
         }
     }
 
@@ -61,6 +83,15 @@ public class Peasant : Unit
         if (monster)
         {
             seenMonster.Remove(monster);
+        }
+        if (other.gameObject.name == "VillageCollider")
+        {
+            IsInVillage = false;
+        }
+        if (other.gameObject.name == "FarmCollider")
+        {
+            IsOnFarm = false;
+            animator.SetBool(ANIMATOR_ISONFARM, IsOnFarm);
         }
     }
 
@@ -108,14 +139,7 @@ public class Peasant : Unit
         nav.SetDestination(startPoint + delta);
     }
 
-    public override void ReciveDamage(float Damage)
-    {
-        base.ReciveDamage(Damage);
-        if (HealthPrecent > 0.5f)
-        {
-            animator.SetTrigger("Get Hit");
-        }
-    }
+
 
     protected override void OnDrawGizmosSelected()
     {

@@ -108,14 +108,7 @@ public class Hero : Unit
         nav.SetDestination(startPoint+delta);
     }
 
-    public override void ReciveDamage(float Damage)
-    {
-        base.ReciveDamage(Damage);
-        if(HealthPrecent > 0.5f)
-        {
-            animator.SetTrigger("Get Hit");
-        }
-    }
+
 
     protected override void OnDrawGizmosSelected()
     {
