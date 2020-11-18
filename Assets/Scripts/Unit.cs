@@ -13,11 +13,11 @@ public class Unit : MonoBehaviour
     public bool IsAlive { get { return hp > 0; } }
     public static List<ISeletable> SeletableUnit { get { return seletableUnit; } }
 
-    Animator animator;
     [SerializeField]
     protected float stoppingDistance = 1, attacDistance = 1, attackCooldown = 1, attackDamage = 0;
     static List<ISeletable> seletableUnit = new List<ISeletable>();
 
+    protected Animator animator;
     protected Transform targetToFollow;
     protected NavMeshAgent nav;
     protected HPBar healtBar;
@@ -71,6 +71,17 @@ public class Unit : MonoBehaviour
         Animate();
     }
 
+    protected virtual void OnTriggerEnter(Collider other)
+    {
+        
+    }
+
+    protected virtual void OnTriggerExit(Collider other)
+    {
+        
+    }
+
+
     protected virtual void Idling()
     {
         nav.velocity = Vector3.zero;
@@ -81,7 +92,7 @@ public class Unit : MonoBehaviour
         {
             nav.velocity = Vector3.zero;
             transform.LookAt(targetToFollow);
-            float distance = Vector3.Magnitude(nav.destination - transform.position);
+            float distance = Vector3.Magnitude(targetToFollow.position - transform.position);
             if (distance < attacDistance)
             {
                 if ((attackTimer -= Time.deltaTime) <= 0) Attack();
@@ -144,8 +155,14 @@ public class Unit : MonoBehaviour
     }
     public virtual void Attack()
     {
-        animator.SetTrigger(ANIMATOR_ATTACK);
-        attackTimer = attackCooldown;
+        Unit unit = targetToFollow.GetComponent<Unit>();
+        if (unit && unit.IsAlive)
+        {
+            animator.SetTrigger(ANIMATOR_ATTACK);
+            attackTimer = attackCooldown;
+        }
+        else targetToFollow = null;
+
     }
     public virtual void DealDamage()
     {
@@ -154,15 +171,31 @@ public class Unit : MonoBehaviour
             Unit unit = targetToFollow.GetComponent<Unit>();
             if (unit && unit.IsAlive)
             {
-                unit.hp -= attackDamage;
+                unit.ReciveDamage(attackDamage);
             }
-            else targetToFollow = null;
+
         }
     }
+
+    public virtual void ReciveDamage(float Damage)
+    {
+        if(IsAlive) hp -= Damage;
+        if(!IsAlive)
+        {
+            nav.enabled = false;
+            healtBar.gameObject.SetActive(false);
+            foreach(var collider in GetComponents<Collider>())
+            {
+                collider.enabled = false;
+            }
+            //enabled = false;
+        }
+    } 
 
     protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attacDistance);
     }
+
 }
