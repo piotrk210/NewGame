@@ -47,6 +47,7 @@ public class Peasant : Unit
         base.Awake();
         normalSpeed = nav.speed;
         startPoint = transform.position;
+        GameController.PeasantList.Add(this);
     }
 
 
@@ -55,7 +56,7 @@ public class Peasant : Unit
         base.OnTriggerEnter(other);
         var monster = other.gameObject.GetComponent<Dragon>();
 
-        Debug.Log(other.gameObject.name);
+
         if(other.gameObject.name == "FarmCollider")
         {
             IsOnFarm = true;
@@ -64,10 +65,14 @@ public class Peasant : Unit
         if (other.gameObject.name == "VillageCollider")
         {
             IsInVillage = true;
+            IsOnFarm = false;
         }
         if (monster && !seenMonster.Contains(monster))
         {
+
             nav.SetDestination(village.transform.position);
+            startPoint = village.transform.position;
+            animator.SetBool(ANIMATOR_ISONFARM, IsOnFarm);
         }
         if(monster && !seenMonster.Contains(monster) && IsInVillage)
         {
@@ -90,8 +95,7 @@ public class Peasant : Unit
         }
         if (other.gameObject.name == "FarmCollider")
         {
-            IsOnFarm = false;
-            animator.SetBool(ANIMATOR_ISONFARM, IsOnFarm);
+
         }
     }
 
