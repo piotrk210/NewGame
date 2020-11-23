@@ -74,29 +74,53 @@ public class CameraControl : MonoBehaviour
 
     void UptadeClick()
     {
-        if (Input.GetMouseButtonDown(0))
+        raySelected = camera.ViewportPointToRay(mousePosScreen);
+        //Debug.Log(raySelected.ToString());
+        if (Input.GetMouseButtonDown(0) && !Physics.Raycast(raySelected, out rayHitSelected, 1000, MonsterLayerMask))
         {
+
             selectionBox.gameObject.SetActive(true);
             selectionRect.position = mousePos;
+            
         }
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && !Physics.Raycast(raySelected, out rayHitSelected, 1000, MonsterLayerMask))
         {
             selectionBox.gameObject.SetActive(false);
         }
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && !Physics.Raycast(raySelected, out rayHitSelected, 1000, MonsterLayerMask))
         {
+
             selectionRect.size = mousePos - selectionRect.position;
-            boxRect = AbsRect(selectionRect);
-            selectionBox.anchoredPosition = boxRect.position;
-            selectionBox.sizeDelta = boxRect.size;
-            UpdateSelecting();
+                boxRect = AbsRect(selectionRect);
+                selectionBox.anchoredPosition = boxRect.position;
+                selectionBox.sizeDelta = boxRect.size;
+                UpdateSelectinginRect();
+            
         }
         if (Input.GetMouseButtonDown(1))
         {
             GiveCommand();
         }
+        if(Input.GetMouseButton(0) && Physics.Raycast(raySelected, out rayHitSelected, 1000, MonsterLayerMask))
+        {
+            var selectedMonster = (rayHitSelected.collider.gameObject.GetComponent<Unit>());
 
-
+            UpdateSelectingonClick(selectedMonster);
+        }
+    }
+    void UpdateSelectingonClick(Unit monster)
+    {
+        selectedUnits.Clear();
+        foreach (Unit unit in Unit.SeletableUnit)
+        {
+            if (!unit || !unit.IsAlive) continue;
+            (unit as ISeletable).SetSelected(false);
+            if( unit==monster)
+            {
+            (unit as ISeletable).SetSelected(true);
+            selectedUnits.Add(unit);
+            }
+        }
     }
 
 
@@ -130,7 +154,7 @@ public class CameraControl : MonoBehaviour
         return rect;
     }
 
-    void UpdateSelecting()
+    void UpdateSelectinginRect()
     {
         selectedUnits.Clear();
         foreach(Unit unit in Unit.SeletableUnit)
@@ -147,15 +171,16 @@ public class CameraControl : MonoBehaviour
         }
     }
 
+
     bool IsPointInRect(Rect rect, Vector2 point)
     {
         return point.x >= rect.position.x && point.x <= (rect.position.x + rect.size.x) &&
             point.y >= rect.position.y && point.y <= (rect.position.y + rect.size.y);
     }
 
-    Ray ray;
-    RaycastHit rayHit;
-    [SerializeField] LayerMask commandLayerMask = -1; 
+    Ray ray, raySelected;
+    RaycastHit rayHit, rayHitSelected;
+    [SerializeField] LayerMask commandLayerMask = -1, MonsterLayerMask; 
 
     void GiveCommand()
     {
@@ -185,4 +210,13 @@ public class CameraControl : MonoBehaviour
         }
     }
 
+    void SelectByClick()
+    {
+        ray = camera.ViewportPointToRay(mousePosScreen);
+        if (Physics.Raycast(ray, out rayHit, 1000, MonsterLayerMask))
+        {
+            var monster = (rayHit.collider.gameObject.GetComponent<Unit>());
+            if (monster && monster.IsAlive) selectedUnits.Add(monster);
+        }
+    } 
 }

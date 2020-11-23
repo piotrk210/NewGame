@@ -10,10 +10,15 @@ public class Dragon : Unit, ISeletable
     [Range(0, .3f), SerializeField] float attackDuration = 0;
     [SerializeField] LayerMask bitingLayerMask;
 
+    protected override void Start()
+    {
+        base.Start();
+        GameController.DragonList.Add(this);
+    }
+
     protected override void Awake()
     {
         base.Awake();
-        GameController.DragonList.Add(this);
     }
 
     public void SetSelected(bool selected)

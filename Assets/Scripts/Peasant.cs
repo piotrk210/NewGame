@@ -42,12 +42,19 @@ public class Peasant : Unit
         }
     }
 
+    protected override void Start()
+    {
+        base.Start();
+        GameController.PeasantList.Add(this);
+    }
+
+
     protected override void Awake()
     {
         base.Awake();
         normalSpeed = nav.speed;
         startPoint = transform.position;
-        GameController.PeasantList.Add(this);
+
     }
 
 

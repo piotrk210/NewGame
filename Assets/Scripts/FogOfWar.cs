@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FogOfWar : MonoBehaviour
 {
+
 	public GameObject m_fogOfWarPlane;
 	public Transform m_player;
 	public LayerMask m_fogLayer;
@@ -14,15 +15,17 @@ public class FogOfWar : MonoBehaviour
 	private Vector3[] m_vertices;
 	private Color[] m_colors;
 
+
 	void Start()
 	{
 		Initialize();
 	}
 
-
 	void Update()
 	{
-		Ray r = new Ray(transform.position, m_player.position - transform.position);
+		Vector3 upperPosition = m_player.position;
+		upperPosition.y += 100;
+		Ray r = new Ray(upperPosition, m_player.position - upperPosition);
 		RaycastHit hit;
 		if (Physics.Raycast(r, out hit, 1000, m_fogLayer, QueryTriggerInteraction.Collide))
 		{
