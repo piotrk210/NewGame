@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Peasant : Unit
 {
 
@@ -13,8 +14,10 @@ public class Peasant : Unit
     
 
     float normalSpeed;
-
+    [SerializeField] GameObject textSpeakPrefab;
     bool IsOnFarm, IsInVillage;
+    speakingText textSpeak;
+    
 
     List<Dragon> seenMonster = new List<Dragon>();
 
@@ -45,6 +48,8 @@ public class Peasant : Unit
     protected override void Start()
     {
         base.Start();
+        textSpeak = Instantiate(textSpeakPrefab, transform).GetComponent<speakingText>();
+        HideText();
         GameController.PeasantList.Add(this);
     }
 
@@ -76,7 +81,7 @@ public class Peasant : Unit
         }
         if (monster && !seenMonster.Contains(monster))
         {
-
+            CallText("Monsters!");
             nav.SetDestination(village.transform.position);
             startPoint = village.transform.position;
             animator.SetBool(ANIMATOR_ISONFARM, IsOnFarm);
@@ -158,6 +163,18 @@ public class Peasant : Unit
         Gizmos.color = Color.blue;
         startPoint = transform.position;
         Gizmos.DrawWireSphere(startPoint, patrolRadious);
+    }
+
+    void CallText(string text)
+    {
+        textSpeak.gameObject.SetActive(true);
+        textSpeak.SendMessage("ChangeTextValue", text);
+        Invoke("HideText", 10);
+    }
+
+    void HideText ()
+    {
+        textSpeak.gameObject.SetActive(false);
     }
 
 }
