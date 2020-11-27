@@ -41,6 +41,7 @@ public class Hero : Unit
         base.Awake();
         normalSpeed = nav.speed;
         startPoint = transform.position;
+        healtBar.gameObject.SetActive(false);
     }
 
 
@@ -51,6 +52,7 @@ public class Hero : Unit
         if (monster && !seenMonster.Contains(monster))
         {
             seenMonster.Add(monster);
+            healtBar.gameObject.SetActive(true);
         }
     }
 
@@ -61,6 +63,7 @@ public class Hero : Unit
         if (monster)
         {
             seenMonster.Remove(monster);
+            healtBar.gameObject.SetActive(false);
         }
     }
 

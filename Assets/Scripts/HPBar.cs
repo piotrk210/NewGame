@@ -28,7 +28,7 @@ public class HPBar : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
+        
         slider.value = unit.HealthPrecent;
         transform.position = unit.transform.position + offset;
         transform.LookAt(cameraTransform);

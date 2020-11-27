@@ -13,7 +13,7 @@ public class Peasant : Unit
     const string ANIMATOR_ISONFARM = "Is On Farm";
     
 
-    float normalSpeed;
+    //float normalSpeed;
     [SerializeField] GameObject textSpeakPrefab;
     bool IsOnFarm, IsInVillage;
     speakingText textSpeak;
@@ -57,9 +57,9 @@ public class Peasant : Unit
     protected override void Awake()
     {
         base.Awake();
-        normalSpeed = nav.speed;
+        //normalSpeed = nav.speed;
         startPoint = transform.position;
-
+        HideHpBar();
     }
 
 
@@ -78,10 +78,12 @@ public class Peasant : Unit
         {
             IsInVillage = true;
             IsOnFarm = false;
+            animator.SetBool(ANIMATOR_ISONFARM, IsOnFarm);
         }
         if (monster && !seenMonster.Contains(monster))
         {
             CallText("Monsters!");
+            healtBar.gameObject.SetActive(true);
             nav.SetDestination(village.transform.position);
             startPoint = village.transform.position;
             animator.SetBool(ANIMATOR_ISONFARM, IsOnFarm);
@@ -100,6 +102,7 @@ public class Peasant : Unit
         if (monster)
         {
             seenMonster.Remove(monster);
+            healtBar.gameObject.SetActive(false);
         }
         if (other.gameObject.name == "VillageCollider")
         {
@@ -177,4 +180,8 @@ public class Peasant : Unit
         textSpeak.gameObject.SetActive(false);
     }
 
+    void HideHpBar()
+    {
+        healtBar.gameObject.SetActive(false);
+    }
 }

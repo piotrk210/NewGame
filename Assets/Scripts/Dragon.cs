@@ -41,14 +41,14 @@ public class Dragon : Unit, ISeletable
     {
         targetToFollow = heroToKill.transform;
         task = Task.chase;
-        Debug.Log(heroToKill.gameObject);
+        //Debug.Log(heroToKill.gameObject);
     }
 
     void Command(Peasant peasantToKill)
     {
         targetToFollow = peasantToKill.transform;
         task = Task.chase;
-        Debug.Log(peasantToKill.gameObject);
+        //Debug.Log(peasantToKill.gameObject);
     }
 
     public override void DealDamage()
