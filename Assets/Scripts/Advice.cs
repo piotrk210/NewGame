@@ -7,7 +7,7 @@ public class Advice : MonoBehaviour
 {
     [SerializeField] GameObject canva;
     bool IsTipShown;
-    string tipContext = "Zabij wieśniaków";
+    string tipContext = "Zabij wieśniaków, udaj się na pola uprawne na północny-zachód. Uważa na bohatera w wiosce.";
     
 
 
