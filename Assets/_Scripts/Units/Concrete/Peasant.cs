@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
-
-public class Peasant : Unit
+public class Peasant : Unit, IInitializable
 {
 
     [SerializeField] float chasingSpeed = 5;
@@ -11,7 +11,13 @@ public class Peasant : Unit
     [SerializeField] float idlingCooldown = 2;
 
     const string ANIMATOR_ISONFARM = "Is On Farm";
-    
+
+    private IGameController gameController;
+
+    public Peasant(IGameController _gameController)
+    {
+        gameController = _gameController;
+    }
 
     //float normalSpeed;
     [SerializeField] GameObject textSpeakPrefab;
@@ -45,12 +51,17 @@ public class Peasant : Unit
         }
     }
 
+    public void Initialize()
+    {
+        gameController.AddPeasant(this);
+     
+    }
+
     protected override void Start()
     {
         base.Start();
         textSpeak = Instantiate(textSpeakPrefab, transform).GetComponent<speakingText>();
         HideText();
-        GameController.PeasantList.Add(this);
     }
 
 
