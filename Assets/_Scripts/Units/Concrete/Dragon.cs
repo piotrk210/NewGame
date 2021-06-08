@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
-public class Dragon : Unit, ISeletable
+public class Dragon : Unit, ISeletable, IInitializable 
 {
 
     [Header("Dragon")]
@@ -10,10 +11,22 @@ public class Dragon : Unit, ISeletable
     [Range(0, .3f), SerializeField] float attackDuration = 0;
     [SerializeField] LayerMask bitingLayerMask;
 
+    private IGameController gameController;
+
+    public Dragon(IGameController _gameController)
+    {
+        gameController = _gameController;
+    }
+
+    public void Initialize()
+    {
+        gameController.AddDragon(this);
+        
+    }
+
     protected override void Start()
     {
         base.Start();
-        GameController.DragonList.Add(this);
     }
 
     protected override void Awake()

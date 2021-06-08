@@ -2,14 +2,12 @@
 using UnityEngine.SceneManagement;
 using Zenject;
 
-public class GameState : BaseState
+public class EndGameState : BaseState
 {
-    private IGameController gameController;
-    public GameState(IStateMachine stateMachine,
-        IGameController _gameController)
+
+    public EndGameState(IStateMachine stateMachine)
         : base(stateMachine)
     {
-        gameController = _gameController;
     }
 
 
@@ -20,7 +18,7 @@ public class GameState : BaseState
 
     public override void UpdateState()
     {
-        gameController.UpdateGameController();
+
     }
 
     public override void FixUpdateState()
