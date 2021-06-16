@@ -12,6 +12,7 @@ public class UnitInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
+        Container.BindInterfacesAndSelfTo<UnitHandler>().AsSingle();
         Container.BindInterfacesAndSelfTo<Dragon>().
             FromInstance(dragon1).AsSingle();
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-public class Unit : MonoBehaviour
+public abstract class Unit : MonoBehaviour
 {
     [Header("Unit")]
     [SerializeField]

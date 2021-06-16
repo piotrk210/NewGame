@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class GameControllerInstaller : MonoInstaller
+public class CompsiteStateMachine : MonoInstaller
 {
     public override void InstallBindings()
     {
-        Container.BindInterfacesAndSelfTo<GameController>().AsSingle();
+        Container.BindInterfacesAndSelfTo<Root>().AsSingle();
     }
 }

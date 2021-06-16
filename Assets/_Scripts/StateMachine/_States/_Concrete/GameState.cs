@@ -4,9 +4,10 @@ using Zenject;
 
 public class GameState : BaseState
 {
-    private IGameController gameController;
+    private readonly IUnitHander gameController;
+    
     public GameState(IStateMachine stateMachine,
-        IGameController _gameController)
+        IUnitHander _gameController)
         : base(stateMachine)
     {
         gameController = _gameController;
@@ -20,7 +21,7 @@ public class GameState : BaseState
 
     public override void UpdateState()
     {
-        gameController.UpdateGameController();
+        
     }
 
     public override void FixUpdateState()

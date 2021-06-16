@@ -12,11 +12,11 @@ public class Peasant : Unit, IInitializable
 
     const string ANIMATOR_ISONFARM = "Is On Farm";
 
-    private IGameController gameController;
+    private IUnitHandler unitHandler;
 
-    public Peasant(IGameController _gameController)
+    public Peasant(IUnitHandler _unitHandler)
     {
-        gameController = _gameController;
+        unitHandler = _unitHandler;
     }
 
     //float normalSpeed;
@@ -53,7 +53,7 @@ public class Peasant : Unit, IInitializable
 
     public void Initialize()
     {
-        gameController.AddPeasant(this);
+        unitHandler.AddPeasant(this);
      
     }
 

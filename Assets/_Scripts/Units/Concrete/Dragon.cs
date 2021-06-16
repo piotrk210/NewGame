@@ -11,17 +11,16 @@ public class Dragon : Unit, ISeletable, IInitializable
     [Range(0, .3f), SerializeField] float attackDuration = 0;
     [SerializeField] LayerMask bitingLayerMask;
 
-    private IGameController gameController;
+    private IUnitHandler unitHandler;
 
-    public Dragon(IGameController _gameController)
+    public Dragon(IUnitHandler _unitHandler)
     {
-        gameController = _gameController;
+        unitHandler = _unitHandler;
     }
 
     public void Initialize()
     {
-        gameController.AddDragon(this);
-        
+        unitHandler.AddDragon(this);      
     }
 
     protected override void Start()
